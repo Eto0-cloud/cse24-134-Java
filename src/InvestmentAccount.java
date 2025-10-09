@@ -1,5 +1,5 @@
-public class SavingsAccount extends Account implements IInterestBearing {
-    public SavingsAccount(double initialDeposit) {
+public class InvestmentAccount extends Account implements InterestBearing {
+    public InvestmentAccount(double initialDeposit) {
         super(initialDeposit);
     }
 
@@ -10,6 +10,6 @@ public class SavingsAccount extends Account implements IInterestBearing {
 
     @Override
     public double calculateInterest() {
-        return balance * 0.03;
+        return balance * 0.05;
     }
 }
