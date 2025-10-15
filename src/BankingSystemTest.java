@@ -1,3 +1,5 @@
+package com.bankingsystem;
+
 public class BankingSystemTest {
     public static void main(String[] args) {
         // Create a customer

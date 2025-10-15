@@ -1,3 +1,5 @@
+package com.bankingsystem;
+
 public abstract class Account {
     protected String accountNumber;
     protected double balance;

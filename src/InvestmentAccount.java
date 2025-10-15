@@ -1,3 +1,5 @@
+package com.bankingsystem;
+
 public class InvestmentAccount extends Account implements InterestBearing {
     public InvestmentAccount(double initialDeposit) {
         super(initialDeposit);
