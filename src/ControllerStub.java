@@ -1,8 +1,5 @@
 package com.bankingsystem;
 
-import bankingsystem.ui.AccountView;
-import bankingsystem.ui.LoginView;
-
 /**
  * Business logic lives here. Views call into this class via callbacks.
  * This stub is intentionally tiny to show separation.
