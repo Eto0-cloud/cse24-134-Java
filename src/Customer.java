@@ -1,70 +1,39 @@
-package com.bankingsystem;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Customer {
-    private String firstName;
-    private String lastName;
-    private String email;
+    private static final AtomicInteger NEXT = new AtomicInteger(1);
+    private final String customerId;
+    private final String firstName;
+    private final String lastName;
+    private String address;
+    private final List<Account> accounts = new ArrayList<>();
 
-    public Customer(String firstName, String lastName, String email) {
-        if (firstName == null || lastName == null || email == null) {
-            throw new IllegalArgumentException("firstName, lastName and email must not be null");
-        }
-        if (firstName.trim().isEmpty() || lastName.trim().isEmpty() || email.trim().isEmpty()) {
-            throw new IllegalArgumentException("firstName, lastName and email must not be empty");
-        }
-        this.firstName = firstName.trim();
-        this.lastName = lastName.trim();
-        this.email = email.trim();
+    public Customer(String firstName, String lastName, String address) {
+        this.customerId = "C" + NEXT.getAndIncrement();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
     }
 
-    public void register() {
-        System.out.println("Customer registered: " + firstName + " " + lastName);
+    public String getCustomerId() { return customerId; }
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public String getFullName() { return firstName + " " + lastName; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+
+    public void addAccount(Account a) {
+        if (a == null) throw new IllegalArgumentException("Account cannot be null");
+        accounts.add(a);
     }
 
-    public Account openAccount(String type, double initialDeposit) {
-        if (initialDeposit < 0) {
-            throw new IllegalArgumentException("initialDeposit must not be negative");
-        }
-        String t = (type == null) ? "" : type.trim().toLowerCase();
-        if (t.equals("savings")) {
-            return new SavingsAccount(initialDeposit);
-        } else if (t.equals("investment")) {
-            return new InvestmentAccount(initialDeposit);
-        } else {
-            return new ChequeAccount(initialDeposit);
-        }
-    }
+    public List<Account> getAccounts() { return Collections.unmodifiableList(accounts); }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setFirstName(String firstName) {
-        if (firstName == null || firstName.trim().isEmpty()) {
-            throw new IllegalArgumentException("firstName must not be null or empty");
-        }
-        this.firstName = firstName.trim();
-    }
-
-    public void setLastName(String lastName) {
-        if (lastName == null || lastName.trim().isEmpty()) {
-            throw new IllegalArgumentException("lastName must not be null or empty");
-        }
-        this.lastName = lastName.trim();
-    }
-
-    public void setEmail(String email) {
-        if (email == null || email.trim().isEmpty()) {
-            throw new IllegalArgumentException("email must not be null or empty");
-        }
-        this.email = email.trim();
+    public Account findAccountByNumber(String accNo) {
+        for (Account a : accounts) if (a.getAccountNumber().equals(accNo)) return a;
+        return null;
     }
 }

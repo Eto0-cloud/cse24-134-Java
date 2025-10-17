@@ -1,25 +1,22 @@
-package com.bankingsystem;
-
 public class SavingsAccount extends Account implements InterestBearing {
-    private static final double RATE = 0.03;
+    private static final double MONTHLY_RATE = 0.0005; // 0.05% monthly
 
-    public SavingsAccount(double initialDeposit) {
-        super(initialDeposit);
+    public SavingsAccount(Customer owner, double initialDeposit, String branch) {
+        super(owner, initialDeposit, branch);
     }
 
     @Override
-    public void withdraw(double amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("withdraw amount must be positive");
-        }
-        if (amount > balance) {
-            throw new IllegalArgumentException("insufficient funds");
-        }
-        balance -= amount;
+    public boolean withdraw(double amount) {
+        System.out.printf("[%s] Withdraw denied: Savings accounts do not allow withdrawals%n", getAccountNumber());
+        return false;
     }
 
     @Override
-    public double calculateInterest() {
-        return balance * RATE;
+    public void applyMonthlyInterest() {
+        double interest = getBalance() * MONTHLY_RATE;
+        if (interest > 0) deposit(interest, "Monthly interest");
     }
+
+    @Override
+    public String getAccountType() { return "Savings"; }
 }

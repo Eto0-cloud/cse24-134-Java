@@ -1,40 +1,66 @@
-package com.bankingsystem;
-
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
+    public static final Bank BANK = new Bank("Demo Bank");
+    private static Stage primaryStage;
+
     @Override
-    public void start(Stage stage) {
-        LoginView loginView = new LoginView();
-        AccountView accountView = new AccountView();
-
-        // Wire views to controller stub (keeps business logic out of views)
-        ControllerStub.wire(loginView, accountView);
-
-        Scene loginScene = new Scene(loginView.getView(), 320, 240);
-        Scene accountScene = new Scene(accountView.getView(), 360, 280);
-
-        // Switch scene when controller updates the account view after successful login
-        // ControllerStub will set a success message; we detect it here by using the login callback
-        loginView.setOnLogin(() -> {
-            String email = loginView.getEmail();
-            String pwd = loginView.getPassword();
-            if (ControllerStub.authenticate(email, pwd)) {
-                accountView.setCustomerName("Katlego Mokoena");
-                accountView.setAccountType("Savings");
-                accountView.setBalance(ControllerStub.getBalance());
-                stage.setScene(accountScene);
-            } else {
-                loginView.showMessage("Invalid credentials");
-            }
-        });
-
-        stage.setTitle("Banking UI");
-        stage.setScene(loginScene);
-        stage.show();
+    public void start(Stage stage) throws Exception {
+        primaryStage = stage;
+        showLogin();
     }
 
-    public static void main(String[] args) { launch(args); }
+    public static void showLogin() throws Exception {
+        FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("Login.fxml"));
+        Parent root = loader.load();
+
+        // inject Bank into login controller if it exposes setBank(Bank)
+        Object ctrl = loader.getController();
+        try {
+            ctrl.getClass().getMethod("setBank", Bank.class).invoke(ctrl, BANK);
+        } catch (NoSuchMethodException ignored) {
+            // controller doesn't have setBank — that's fine
+        }
+
+        primaryStage.setTitle("Bank - Login");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+
+    /**
+     * Show the main banking UI after a successful login.
+     * Uses reflection to inject Bank and optionally the logged-in Customer to avoid compile-time coupling.
+     */
+    public static void showBankingSystem(Customer loggedInCustomer) throws Exception {
+        FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("BankingSystem.fxml"));
+        Parent root = loader.load();
+
+        Object ctrl = loader.getController();
+
+        // try to inject Bank if the controller provides setBank(Bank)
+        try {
+            ctrl.getClass().getMethod("setBank", Bank.class).invoke(ctrl, BANK);
+        } catch (NoSuchMethodException ignored) {
+        }
+
+        // try to inject the logged-in customer if the controller provides setLoggedInCustomer(Customer)
+        if (loggedInCustomer != null) {
+            try {
+                ctrl.getClass().getMethod("setLoggedInCustomer", Customer.class).invoke(ctrl, loggedInCustomer);
+            } catch (NoSuchMethodException ignored) {
+            }
+        }
+
+        primaryStage.setTitle("Bank - Dashboard");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
