@@ -5,29 +5,36 @@ public class Customer {
     private String lastName;
     private String email;
 
-    // Constructor
     public Customer(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+        if (firstName == null || lastName == null || email == null) {
+            throw new IllegalArgumentException("firstName, lastName and email must not be null");
+        }
+        if (firstName.trim().isEmpty() || lastName.trim().isEmpty() || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("firstName, lastName and email must not be empty");
+        }
+        this.firstName = firstName.trim();
+        this.lastName = lastName.trim();
+        this.email = email.trim();
     }
 
-    // Business Logic
     public void register() {
         System.out.println("Customer registered: " + firstName + " " + lastName);
     }
 
     public Account openAccount(String type, double initialDeposit) {
-        if (type.equalsIgnoreCase("savings")) {
+        if (initialDeposit < 0) {
+            throw new IllegalArgumentException("initialDeposit must not be negative");
+        }
+        String t = (type == null) ? "" : type.trim().toLowerCase();
+        if (t.equals("savings")) {
             return new SavingsAccount(initialDeposit);
-        } else if (type.equalsIgnoreCase("investment")) {
+        } else if (t.equals("investment")) {
             return new InvestmentAccount(initialDeposit);
         } else {
             return new ChequeAccount(initialDeposit);
         }
     }
 
-    // Getters
     public String getFirstName() {
         return firstName;
     }
@@ -40,16 +47,24 @@ public class Customer {
         return email;
     }
 
-    // Setters
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if (firstName == null || firstName.trim().isEmpty()) {
+            throw new IllegalArgumentException("firstName must not be null or empty");
+        }
+        this.firstName = firstName.trim();
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if (lastName == null || lastName.trim().isEmpty()) {
+            throw new IllegalArgumentException("lastName must not be null or empty");
+        }
+        this.lastName = lastName.trim();
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("email must not be null or empty");
+        }
+        this.email = email.trim();
     }
 }

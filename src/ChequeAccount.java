@@ -7,6 +7,12 @@ public class ChequeAccount extends Account {
 
     @Override
     public void withdraw(double amount) {
-        if (amount <= balance) balance -= amount;
+        if (amount <= 0) {
+            throw new IllegalArgumentException("withdraw amount must be positive");
+        }
+        if (amount > balance) {
+            throw new IllegalArgumentException("insufficient funds");
+        }
+        balance -= amount;
     }
 }
