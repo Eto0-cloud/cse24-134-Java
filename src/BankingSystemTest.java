@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class BankingSystem {
+public class BankingSystemTest {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Bank bank = new Bank("Demo Bank");
