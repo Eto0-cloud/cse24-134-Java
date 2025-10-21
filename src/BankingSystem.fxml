@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="BankingSystemController" prefWidth="900" prefHeight="640">
+
+    <!-- Top: title and status -->
+    <top>
+        <HBox spacing="12" alignment="CENTER_LEFT" style="-fx-padding:10; -fx-background-color:#2d6ca2;">
+            <Label text="Banking System Dashboard" style="-fx-text-fill: white; -fx-font-size:18; -fx-font-weight:bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusLabel" text="Status: ready" style="-fx-text-fill: white;"/>
+        </HBox>
+    </top>
+
+    <!-- Left: Customer registration and account opening -->
+    <left>
+        <VBox spacing="10" style="-fx-padding:12; -fx-background-color:#f4f6f8;" prefWidth="320">
+            <Label text="Register Customer" style="-fx-font-weight:bold;"/>
+            <GridPane hgap="8" vgap="8">
+                <Label text="First name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="firstNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Last name:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="lastNameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Address:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="addressField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <HBox spacing="8">
+                <Button fx:id="registerBtn" text="Register" onAction="#handleRegister" />
+                <Button fx:id="listBtn" text="List Customers" onAction="#handleListCustomers" />
+            </HBox>
+
+            <Separator/>
+
+            <Label text="Open Account" style="-fx-font-weight:bold;"/>
+            <GridPane hgap="8" vgap="8">
+                <Label text="Customer ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="custIdField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Account Type:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="acctTypeField" promptText="savings/investment/cheque" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Initial Deposit:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="initDepositField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Employer name:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="empNameField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Employer address:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="empAddrField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <Label text="Overdraft (cheque):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="odField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <Button fx:id="openAccountBtn" text="Open Account" onAction="#handleOpenAccount" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+
+    <!-- Center: account operations and output -->
+    <center>
+        <VBox spacing="10" style="-fx-padding:12;">
+            <Label text="Account Operations" style="-fx-font-size:14; -fx-font-weight:bold;"/>
+            <GridPane hgap="8" vgap="8">
+                <Label text="Account Number:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="acctNumberField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Amount:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="amountField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <HBox spacing="8">
+                <Button fx:id="depositBtn" text="Deposit" onAction="#handleDeposit"/>
+                <Button fx:id="withdrawBtn" text="Withdraw" onAction="#handleWithdraw"/>
+                <Button fx:id="interestBtn" text="Apply Monthly Interest" onAction="#handleApplyInterest"/>
+                <Button fx:id="exitBtn" text="Exit" onAction="#handleExit"/>
+            </HBox>
+
+            <Label text="Output / Logs" style="-fx-font-weight:bold;"/>
+            <TextArea fx:id="outputArea" editable="false" prefRowCount="12" wrapText="true"/>
+        </VBox>
+    </center>
+
+    <!-- Right: list view of customers and accounts -->
+    <right>
+        <VBox spacing="10" style="-fx-padding:12; -fx-background-color:#fafafa;" prefWidth="260">
+            <Label text="Customers &amp; Accounts" style="-fx-font-weight:bold;"/>
+            <ListView fx:id="listView" prefHeight="400"/>
+        </VBox>
+    </right>
+
+    <!-- Bottom: small footer -->
+    <bottom>
+        <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-padding:8; -fx-background-color:#eceff1;">
+            <Label text="Banking System" />
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Powered by JavaFX"/>
+        </HBox>
+    </bottom>
+</BorderPane>
