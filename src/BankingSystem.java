@@ -39,15 +39,20 @@ public class BankingSystem {
                         System.out.println("a) Savings b) Investment c) Cheque");
                         System.out.print("Type: "); String t = sc.nextLine().trim();
                         System.out.print("Initial deposit: "); double init = Double.parseDouble(sc.nextLine().trim());
-                        if (t.equalsIgnoreCase("a")) bank.openSavingsAccount(cust, init, "Main");
-                        else if (t.equalsIgnoreCase("b")) bank.openInvestmentAccount(cust, init, "Main");
+                        
+                        // generate a new account number once and pass it to the Bank open methods
+                        String acctNo = Account.generateAccountNumber();
+                        
+                        if (t.equalsIgnoreCase("a")) bank.openSavingsAccount(acctNo, cust, init, "Main");
+                        else if (t.equalsIgnoreCase("b")) bank.openInvestmentAccount(acctNo, cust, init, "Main");
                         else if (t.equalsIgnoreCase("c")) {
                             System.out.print("Employer name: "); String en = sc.nextLine().trim();
                             System.out.print("Employer address: "); String ea = sc.nextLine().trim();
                             System.out.print("Overdraft limit: "); double od = Double.parseDouble(sc.nextLine().trim());
-                            bank.openChequeAccount(cust, init, "Main", en, ea, od);
+                            bank.openChequeAccount(acctNo, cust, init, "Main", en, ea, od);
                         } else System.out.println("Invalid type");
                     }
+                    
                     case "3" -> {
                         System.out.print("Customer id: "); String id = sc.nextLine().trim();
                         Customer cust = bank.findCustomerById(id);

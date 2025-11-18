@@ -97,19 +97,22 @@ public class BankingSystemController {
         if (Double.isNaN(init)) { appendOutput("Enter a valid initial deposit."); return; }
 
         try {
+            // Option 1: controller generates the explicit account number required by Bank
+            String acctNo = Account.generateAccountNumber();
+            
             Account created = null;
             if (t.startsWith("a") || t.contains("savings")) {
-                created = bank.openSavingsAccount(cust, init, "Main");
+                created = bank.openSavingsAccount(acctNo, cust, init, "Main");
                 appendOutput("Opened Savings for " + cust.getCustomerId());
             } else if (t.startsWith("b") || t.contains("investment")) {
                 // Business rule lives in model (InvestmentAccount will enforce minimum)
-                created = bank.openInvestmentAccount(cust, init, "Main");
+                created = bank.openInvestmentAccount(acctNo, cust, init, "Main");
                 appendOutput("Opened Investment for " + cust.getCustomerId());
             } else if (t.startsWith("c") || t.contains("cheque")) {
                 String emp = safeTrim(empNameField == null ? null : empNameField.getText());
                 String empAddr = safeTrim(empAddrField == null ? null : empAddrField.getText());
                 double od = parseDouble(odField == null ? null : odField.getText(), 0);
-                created = bank.openChequeAccount(cust, init, "Main", emp, empAddr, od);
+                created = bank.openChequeAccount(acctNo, cust, init, "Main", emp, empAddr, od);
                 appendOutput("Opened Cheque for " + cust.getCustomerId());
             } else {
                 appendOutput("Invalid account type. Use savings/investment/cheque.");

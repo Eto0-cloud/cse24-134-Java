@@ -3,9 +3,9 @@ public class ChequeAccount extends Account {
     private final String employerAddress;
     private final double overdraftLimit;
 
-    public ChequeAccount(Customer owner, double initialDeposit, String branch,
+    public ChequeAccount(String accountNumber, Customer owner, double initialDeposit, String branch,
                          String employerName, String employerAddress, double overdraftLimit) {
-        super(owner, initialDeposit, branch);
+        super(accountNumber, owner, initialDeposit, branch);
         if (employerName == null || employerName.isBlank()) throw new IllegalArgumentException("Employer name required");
         if (employerAddress == null || employerAddress.isBlank()) throw new IllegalArgumentException("Employer address required");
         this.employerName = employerName;

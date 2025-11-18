@@ -2,8 +2,8 @@ public class InvestmentAccount extends Account implements InterestBearing {
     private static final double MONTHLY_RATE = 0.05; // 5% monthly
     public static final double MIN_INITIAL = 500.0;
 
-    public InvestmentAccount(Customer owner, double initialDeposit, String branch) {
-        super(owner, 0.0, branch);
+    public InvestmentAccount(String accountNumber, Customer owner, double initialDeposit, String branch) {
+        super(accountNumber, owner, 0.0, branch);
         if (initialDeposit < MIN_INITIAL) throw new IllegalArgumentException("Investment requires minimum initial deposit of BWP500.00");
         deposit(initialDeposit, "Initial deposit (Investment)");
     }

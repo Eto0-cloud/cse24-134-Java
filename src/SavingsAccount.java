@@ -1,8 +1,8 @@
 public class SavingsAccount extends Account implements InterestBearing {
     private static final double MONTHLY_RATE = 0.0005; // 0.05% monthly
 
-    public SavingsAccount(Customer owner, double initialDeposit, String branch) {
-        super(owner, initialDeposit, branch);
+    public SavingsAccount(String accountNumber,Customer owner, double initialDeposit, String branch) {
+        super(accountNumber, owner, initialDeposit, branch);
     }
 
     @Override
@@ -20,3 +20,6 @@ public class SavingsAccount extends Account implements InterestBearing {
     @Override
     public String getAccountType() { return "Savings"; }
 }
+
+
+
